@@ -56,6 +56,16 @@ public class ImageTest extends BaseTest {
                 .getString("data.deletehash");
     }
 
+@Test
+    void UploadedImage(){
+        uploadedImageId = given()
+        .headers("Autorization", token)
+                .multiPart("image", encodedFile)
+                .formParam("title", "ImageTitle")
+                .expect()
+                .statusCode(200)
+}
+                
      @Test
     void uploadFileImageTest(){
         uploadedImageId = given()
@@ -72,6 +82,89 @@ public class ImageTest extends BaseTest {
                 .jsonPath()
                 .getString("data.deletehash");
     }
+
+  @Test
+    void uploadFileImage2Test(){
+        uploadedImageId = given()
+        .headers("Autorization",token)
+                .multiPart("image", new File(PATH_TO_IMAGE))
+                .expect()
+                .statusCode(201)
+                .when()
+                .post("https://api.imqur.com/3/upload")
+                .prettyPeek()
+                .then()
+                .extract()
+                .response()
+                .jsonPath()
+                .getString("data.deletehash");
+}
+
+ @Test
+    void uploadFileImage3Test(){
+        uploadedImageId = given()
+        .headers("Autorization",token)
+                .multiPart("image", new File(PATH_TO_IMAGE))
+                .expect()
+                .statusCode(404)
+                .when()
+                .post("https://api.imqur.com/3/upload")
+                .prettyPeek()
+                .then()
+                .extract()
+                .response()
+                .jsonPath()
+                .getString("data.deletehash");
+}
+ @Test
+    void uploadFileImage4Test(){
+        uploadedImageId = given()
+        .headers("Autorization",token)
+                .multiPart("image", new File(PATH_TO_IMAGE))
+                .expect()
+                .statusCode(201)
+                .when()
+                .post("https://api.imqur.com/3/upload")
+                .prettyPeek()
+                .then()
+                .extract()
+                .response()
+                .jsonPath()
+                .getString("data.deletehash");
+}
+  @Test
+    void UploadedImage11Id(){
+        uploadedImageId = given()
+        .headers("Autorization", token)
+                .multiPart("image", encodedFile)
+                .formParam("title", "ImageTitle")
+                .expect()
+                .body("success", is(true))
+                .body("data.id", is(notNullValue())
+                .when()
+                .post("https://api.imqur.com/3/image")
+                
+    }
+
+  @Test
+    void UploadedImage12Id(){
+        uploadedImageId = given()
+        .headers("Autorization", token)
+                .multiPart("image", encodedFile)
+                .formParam("title", "ImageTitle")
+                .expect()
+                .statusCode(200)
+                .body("success", is(true))
+                .body("data.id", is(notNullValue())
+                .when()
+                .post("https://api.imqur.com/3/image")
+                .prettyPeek()
+                .extract()
+                .response()
+                .jsonPath()
+                .getString("data.deletehash");
+    }
+
     @AfterEach
     void tearDown(){
         given()
